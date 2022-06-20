@@ -7,6 +7,8 @@ import {
   GoogleAuthProvider,
   createUserWithEmailAndPassword,
   signInWithEmailAndPassword,
+  signOut,
+  onAuthStateChanged,
 } from "firebase/auth";
 import { getFirestore, doc, getDoc, setDoc } from "firebase/firestore";
 
@@ -35,7 +37,7 @@ export const signInWithGoogleRedirect = () =>
   signInWithRedirect(auth, googleProvider);
 
 // Initialize Cloud Firestore and get a reference to the service
-export const db = getFirestore();
+export const db = getFirestore(firebaseApp);
 
 // Create User Document from Google Authentication
 export const createUserDocumentFromAuth = async (
@@ -80,3 +82,10 @@ export const signInAuthUserWithEmailAndPassword = async (email, password) => {
 
   return await signInWithEmailAndPassword(auth, email, password);
 };
+
+export const signOutUser = async () => {
+  return await signOut(auth);
+};
+
+export const onAuthStateChangedListener = (callback) =>
+  onAuthStateChanged(auth, callback);
